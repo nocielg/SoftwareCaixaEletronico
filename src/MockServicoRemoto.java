@@ -28,7 +28,7 @@ public class MockServicoRemoto implements ServicoRemoto{
 		ContaCorrente conta = recuperarConta(numeroConta);
 		conta.setSaldo(saldo);
 	}
-		
+		//
 	@Test
 	public void testeRecuperaConta(){
 		ContaCorrente conta;
