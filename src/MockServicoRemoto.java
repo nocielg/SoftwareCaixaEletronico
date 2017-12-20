@@ -8,6 +8,7 @@ import static org.junit.Assert.*;
 
 public class MockServicoRemoto implements ServicoRemoto{
 	List<ContaCorrente> contas = new ArrayList<ContaCorrente>();
+	private MockHardware mockHardware = new MockHardware();
 	
 	public void setContaCorrente(ContaCorrente conta){
 		contas.add(conta);
@@ -37,10 +38,12 @@ public class MockServicoRemoto implements ServicoRemoto{
 	}
 	
 	@Test
-	public void testepersistirConta(){
-		setContaCorrente(new ContaCorrente(3,10));
-		ContaCorrente conta = recuperarConta(3);
-		persistirConta(3,13);
+	public void testepersistirConta() throws NumberFormatException, ErroNumeroDaContaException{
+		//Testando também a integração do mock do hardware com o serviço remoto.
+		int numeroConta = Integer.parseInt(mockHardware.pegarNumeroDaContaCartao());
+		setContaCorrente(new ContaCorrente(numeroConta,10));
+		ContaCorrente conta = recuperarConta(1);
+		persistirConta(1,13);
 		assertEquals(conta.getSaldo(),13);	
 	}
 	

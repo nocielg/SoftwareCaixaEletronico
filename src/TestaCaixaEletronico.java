@@ -7,24 +7,17 @@ public class TestaCaixaEletronico {
 	CaixaEletronico caixaEletronico = new CaixaEletronico();
 	MockServicoRemoto mock = new MockServicoRemoto();
 	ContaCorrente conta;
-	
+	MockHardware mockHardware = new MockHardware();
 	@Test
-	public void testaLogarNaoFunciona() {
-		 assertEquals(caixaEletronico.logar(12, mock),null);
+	public void testaLogarNaoFunciona() throws NumberFormatException, ErroNumeroDaContaException {
+		//Pegando o número do cartão a partir do hardware.
+		int numeroConta = Integer.parseInt(mockHardware.pegarNumeroDaContaCartao());
+		assertEquals(caixaEletronico.logar(numeroConta, mock),null);
 	}
-	/*	
-	@Test
-	public void testaLogarFunciona() {
-		MockServicoRemoto mockServico = new MockServicoRemoto();
-		ContaCorrente conta = new ContaCorrente(2,10);
-		mockServico.setContaCorrente(conta);
-		CaixaEletronico caixaEletronico = new CaixaEletronico();
-		assertSame(caixaEletronico.logar(2, mock), conta);
-	}*/
 	
 	
 	@Test
-	public void testaSacarFunciona() {
+	public void testaSacarFunciona() throws ErroAoEntregaroDinheiroException {
 		MockServicoRemoto mockServico = new MockServicoRemoto();
 		ContaCorrente conta1 = new ContaCorrente(2,10);
 		mockServico.setContaCorrente(conta1);
@@ -34,7 +27,7 @@ public class TestaCaixaEletronico {
 	}
 	
 	@Test
-	public void testaSacarNaoFunciona() {
+	public void testaSacarNaoFunciona() throws ErroAoEntregaroDinheiroException {
 		MockServicoRemoto mockServico = new MockServicoRemoto();
 		ContaCorrente conta1 = new ContaCorrente(2,10);
 		mockServico.setContaCorrente(conta1);
@@ -44,7 +37,7 @@ public class TestaCaixaEletronico {
 	}
 	
 	@Test
-	public void testaDepositarFunciona() {
+	public void testaDepositarFunciona() throws ErroAoLerEnvelopeException {
 		MockServicoRemoto mockServico = new MockServicoRemoto();
 		ContaCorrente conta1 = new ContaCorrente(2,10);
 		mockServico.setContaCorrente(conta1);
@@ -54,7 +47,7 @@ public class TestaCaixaEletronico {
 	}
 	
 	@Test
-	public void testaDepositarNaoFunciona() {
+	public void testaDepositarNaoFunciona() throws ErroAoLerEnvelopeException {
 		MockServicoRemoto mockServico = new MockServicoRemoto();
 		ContaCorrente conta1 = new ContaCorrente(2,10);
 		mockServico.setContaCorrente(conta1);

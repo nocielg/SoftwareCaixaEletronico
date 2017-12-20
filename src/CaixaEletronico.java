@@ -3,7 +3,7 @@
 public class CaixaEletronico {
 
 	private ContaCorrente conta; 
-	
+	private MockHardware mockHardware = new MockHardware();
 	
 	public ContaCorrente logar(int numConta, MockServicoRemoto mock) {
 		conta = mock.recuperarConta(numConta);
@@ -19,10 +19,11 @@ public class CaixaEletronico {
 	}
 
 	
-	public String sacar(int numConta, MockServicoRemoto mock, int dinheiroSacado) {
+	public String sacar(int numConta, MockServicoRemoto mock, int dinheiroSacado) throws ErroAoEntregaroDinheiroException {
 		ContaCorrente conta = mock.recuperarConta(numConta);
 		int saldo=0;
 		if (dinheiroSacado <= conta.getSaldo()){
+			mockHardware.entregarDinheiro();
 			saldo = conta.getSaldo();
 			saldo=saldo-dinheiroSacado;
 			mock.persistirConta(numConta, saldo);
@@ -33,12 +34,13 @@ public class CaixaEletronico {
 	}
 	
 	
-	public String depositar(int numConta, MockServicoRemoto mock, int dinheiroDepositado) {
+	public String depositar(int numConta, MockServicoRemoto mock, int dinheiroDepositado) throws ErroAoLerEnvelopeException {
 		ContaCorrente conta = mock.recuperarConta(numConta);
 		int saldo=0;
 		saldo=conta.getSaldo();
 		saldo=saldo+dinheiroDepositado;
 		if (dinheiroDepositado>0){
+			mockHardware.lerEnvelope();
 			mock.persistirConta(numConta, saldo);
 			return "Depósito recebido com sucesso";
 		}
